@@ -1,4 +1,3 @@
-============
 PyHeatshrink
 ============
 
@@ -17,18 +16,16 @@ library <https://github.com/atomicobject/heatshrink>`__.
 | * Debian 8
 | * FreeBSD 10
 
-*****
 Plans
-*****
+-----
 
 - Drop Python 2 support.
 
 - API similar to Python's standard library :code:`lzma` and
   :code:`bz2` modules.
 
-************
 Installation
-************
+------------
 
 From PyPI:
 
@@ -36,12 +33,11 @@ From PyPI:
 
    $ pip install heatshrink2
 
-*****
 Usage
-*****
+-----
 
 Files/Streams
-=============
+^^^^^^^^^^^^^
 
 The file interface attempts to imitate the behaviour of the built-in
 `file` object and other file-like objects (E.g. :code:`bz2.BZ2File`),
@@ -50,54 +46,53 @@ available.
 
 You can open a heatshrink file by using the :code:`open` function:
 
-::
+.. code-block:: python
 
-    >>> import heatshrink2
-    >>> with heatshrink2.open('data.bin', mode='wb') as fp:
-    ...     fp.write("Is there anybody in there?")
+   >>> import heatshrink2
+   >>> with heatshrink2.open('data.bin', mode='wb') as fp:
+   ...     fp.write("Is there anybody in there?")
 
 You can also use :code:`EncodedFile` directly:
 
-::
+.. code-block:: python
 
-    >>> from heatshrink2 import EncodedFile
-    >>> with EncodedFile('data.bin') as fp:
-    ...     # Read a buffer
-    ...     print('Buffered: %r' % fp.read(256))
-    ...     # Iterate through lines
-    ...     for line in fp:
-    ...         print('Read line: %r' % line)
-
+   >>> from heatshrink2 import EncodedFile
+   >>> with EncodedFile('data.bin') as fp:
+   ...     # Read a buffer
+   ...     print('Buffered: %r' % fp.read(256))
+   ...     # Iterate through lines
+   ...     for line in fp:
+   ...         print('Read line: %r' % line)
 
 Byte strings
-============
+^^^^^^^^^^^^
 
 The encoder accepts any iterable and returns a byte string
 containing encoded (compressed) data.
 
-::
+.. code-block:: python
 
-    >>> import heatshrink2
-    >>> encoded = heatshrink2.encode('a string')
-    >>> type(encoded)
-    <type 'str'>  # <class 'bytes'> in Python 3
-    >>> encoded
-    '\xb0\xc8.wK\x95\xa6\xddg'
+   >>> import heatshrink2
+   >>> encoded = heatshrink2.encode('a string')
+   >>> type(encoded)
+   <type 'str'>  # <class 'bytes'> in Python 3
+   >>> encoded
+   '\xb0\xc8.wK\x95\xa6\xddg'
 
 The decoder accepts any object that implements the buffer protocol and
 returns a byte representation of the decoded data.
 
-::
+.. code-block:: python
 
-    >>> import heatshrink2
-    >>> decoded = heatshrink2.decode(b'\xb0\xc8.wK\x95\xa6\xddg')
-    >>> type(decoded)
-    <type 'str'>  # <class 'bytes'> in Python 3
-    >>> decoded
-    'a string'
+   >>> import heatshrink2
+   >>> decoded = heatshrink2.decode(b'\xb0\xc8.wK\x95\xa6\xddg')
+   >>> type(decoded)
+   <type 'str'>  # <class 'bytes'> in Python 3
+   >>> decoded
+   'a string'
 
 Parameters
-==========
+^^^^^^^^^^
 
 Both the encoder and decoder allow providing :code:`window_sz2` and
 :code:`lookahead_sz2` keywords:
@@ -129,28 +124,25 @@ details.
 For more use cases, please refer to the `tests folder
 <https://github.com/eerimoq/pyheatshrink/blob/master/tests>`__.
 
-**********
 Benchmarks
-**********
+----------
 
 The benchmarks check compression/decompression against a ~6MB file:
 
-::
+.. code-block::
 
    $ python bench/benchmarks.py
 
-*******
 Testing
-*******
+-------
 
 Running tests is as simple as doing:
 
-::
+.. code-block::
 
     $ python setup.py test
 
-*******
 License
-*******
+-------
 
 ISC license
