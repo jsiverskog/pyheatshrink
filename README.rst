@@ -2,9 +2,6 @@
 PyHeatshrink
 ============
 
-.. image:: https://img.shields.io/pypi/v/heatshrink2.svg
-    :target: https://pypi.python.org/pypi/heatshrink2
-
 .. image:: https://travis-ci.org/eerimoq/pyheatshrink.svg?branch=master
     :target: https://travis-ci.org/eerimoq/pyheatshrink
 
