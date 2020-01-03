@@ -7,12 +7,15 @@ import unittest
 
 from heatshrink2.streams import EncodedFile
 
-from .constants import TEXT, COMPRESSED
-from .utils import TestUtilsMixin, random_string
+from .constants import TEXT
+from .constants import COMPRESSED
+from .utils import TestUtilsMixin
+from .utils import random_string
 
 TEST_FILENAME = 'test_{}_tmp'.format(os.getpid())
 
 PY3 = sys.version_info[0] == 3
+
 if PY3:
     def bchr(s):
         return bytes([s])
@@ -22,6 +25,7 @@ else:
 
 
 class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
+
     def setUp(self):
         self.fp = EncodedFile(TEST_FILENAME, 'wb')
 
@@ -57,13 +61,14 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
         ]
 
         encoded = []
+
         for (window_sz2, lookahead_sz2) in encode_params:
             kwargs = {
                 'window_sz2': window_sz2,
                 'lookahead_sz2': lookahead_sz2
             }
-            with io.BytesIO() as dst:
 
+            with io.BytesIO() as dst:
                 with EncodedFile(dst, 'wb', **kwargs) as fp:
                     fp.write(TEXT)
 
@@ -102,8 +107,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
                 read_str = fp.read()
 
             if read_str != contents:
-                msg = ('Decoded and original file contents '
-                       'do not match for size: {}')
+                msg = 'Decoded and original file contents do not match for size: {}'
                 self.fail(msg.format(size))
 
     def test_buffered_large_files(self):

@@ -2,14 +2,19 @@ import array
 import unittest
 
 import heatshrink2 as heatshrink
-from heatshrink2.core import Encoder, Reader, Writer
+from heatshrink2.core import Encoder
+from heatshrink2.core import Reader
+from heatshrink2.core import Writer
 
 from .constants import TEXT
-from .utils import TestUtilsMixin, random_string
+from .utils import TestUtilsMixin
+from .utils import random_string
 
 
 class InternalEncodersTest(TestUtilsMixin, unittest.TestCase):
-    """Tests for the Writer and Reader classes."""
+    """Tests for the Writer and Reader classes.
+
+    """
 
     def test_checks_window_sz2_type(self):
         for cls in (Writer, Reader):
@@ -38,7 +43,9 @@ class InternalEncodersTest(TestUtilsMixin, unittest.TestCase):
 
 
 class EncoderTest(TestUtilsMixin, unittest.TestCase):
-    """Test encoder state machine."""
+    """Test encoder state machine.
+
+    """
 
     def setUp(self):
         self.reader = Reader()
@@ -84,7 +91,9 @@ class EncoderTest(TestUtilsMixin, unittest.TestCase):
 
 
 class EncodeFunctionTest(TestUtilsMixin, unittest.TestCase):
-    """Tests for the core.encode function."""
+    """Tests for the core.encode function.
+
+    """
 
     def setUp(self):
         self.encoded = heatshrink.encode(b'abcde')
@@ -113,7 +122,9 @@ class EncodeFunctionTest(TestUtilsMixin, unittest.TestCase):
 
 
 class DecodeFunctionTest(TestUtilsMixin, unittest.TestCase):
-    """Tests for the core.decode function."""
+    """Tests for the core.decode function.
+
+    """
 
     def test_returns_string(self):
         self.assertIsInstance(heatshrink.decode(b'abcde'), bytes)
@@ -128,10 +139,10 @@ class DecodeFunctionTest(TestUtilsMixin, unittest.TestCase):
 
 
 class EncoderToDecoderTest(TestUtilsMixin, unittest.TestCase):
-    """
-    Tests assertion that data passed through the encoder
-    and then the decoder with the same parameters will be
-    equal to the original data.
+    """Tests assertion that data passed through the encoder and then the
+    decoder with the same parameters will be equal to the original
+    data.
+
     """
 
     def test_round_trip(self):
@@ -150,9 +161,9 @@ class EncoderToDecoderTest(TestUtilsMixin, unittest.TestCase):
             contents = contents.encode('ascii')
 
             decoded = heatshrink.decode(heatshrink.encode(contents))
+
             # Check whole file, but don't use assertEqual as it will
             # print all the data
             if decoded != contents:
-                msg = ('Decoded and original file contents '
-                       'do not match for size: {}')
+                msg = 'Decoded and original file contents do not match for size: {}'
                 self.fail(msg.format(size))
