@@ -10,4 +10,4 @@ install:
   - pip install coveralls
 
 script:
-  - python setup.py test
+  - make test
