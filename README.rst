@@ -25,8 +25,8 @@ From PyPI:
 
 ::
 
-   $ easy_install heatshrink
-   $ pip install heatshrink
+   $ easy_install heatshrink2
+   $ pip install heatshrink2
 
 Manual installation:
 
@@ -49,15 +49,15 @@ You can open a heatshrink file by using the :code:`open` function:
 
 ::
 
-    >>> import heatshrink
-    >>> with heatshrink.open('data.bin', mode='wb') as fp:
+    >>> import heatshrink2
+    >>> with heatshrink2.open('data.bin', mode='wb') as fp:
     ...     fp.write("Is there anybody in there?")
 
 You can also use :code:`EncodedFile` directly:
 
 ::
 
-    >>> from heatshrink import EncodedFile
+    >>> from heatshrink2 import EncodedFile
     >>> with EncodedFile('data.bin') as fp:
     ...     # Read a buffer
     ...     print('Buffered: %r' % fp.read(256))
@@ -74,8 +74,8 @@ containing encoded (compressed) data.
 
 ::
 
-    >>> import heatshrink
-    >>> encoded = heatshrink.encode('a string')
+    >>> import heatshrink2
+    >>> encoded = heatshrink2.encode('a string')
     >>> type(encoded)
     <type 'str'>  # <class 'bytes'> in Python 3
     >>> encoded
@@ -86,8 +86,8 @@ returns a byte representation of the decoded data.
 
 ::
 
-    >>> import heatshrink
-    >>> decoded = heatshrink.decode(b'\xb0\xc8.wK\x95\xa6\xddg')
+    >>> import heatshrink2
+    >>> decoded = heatshrink2.decode(b'\xb0\xc8.wK\x95\xa6\xddg')
     >>> type(decoded)
     <type 'str'>  # <class 'bytes'> in Python 3
     >>> decoded
