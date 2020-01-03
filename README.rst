@@ -2,11 +2,11 @@
 PyHeatshrink
 ============
 
-.. image:: https://img.shields.io/pypi/v/heatshrink.svg
-    :target: https://pypi.python.org/pypi/heatshrink
+.. image:: https://img.shields.io/pypi/v/heatshrink2.svg
+    :target: https://pypi.python.org/pypi/heatshrink2
 
-.. image:: https://travis-ci.org/johan-sports/pyheatshrink.svg?branch=master
-    :target: https://travis-ci.org/johan-sports/pyheatshrink
+.. image:: https://travis-ci.org/eerimoq/pyheatshrink2.svg?branch=master
+    :target: https://travis-ci.org/eerimoq/pyheatshrink2
 
 Python binding to the `heatshrink LZSS compression
 library <https://github.com/atomicobject/heatshrink>`__.
@@ -111,7 +111,7 @@ Both the encoder and decoder allow providing :code:`window_sz2` and :code:`looka
 Check out the `heatshrink configuration page <https://github.com/atomicobject/heatshrink#configuration>`__ for more details.
 
 
-For more use cases, please refer to the `tests folder <https://github.com/johan-sports/pyheatshrink/blob/master/tests>`__.
+For more use cases, please refer to the `tests folder <https://github.com/eerimoq/pyheatshrink/blob/master/tests>`__.
 
 **********
 Benchmarks

@@ -5,7 +5,7 @@ import io
 import os
 import unittest
 
-from heatshrink.streams import EncodedFile
+from heatshrink2.streams import EncodedFile
 
 from .constants import TEXT, COMPRESSED
 from .utils import TestUtilsMixin, random_string

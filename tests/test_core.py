@@ -1,8 +1,8 @@
 import array
 import unittest
 
-import heatshrink
-from heatshrink.core import Encoder, Reader, Writer
+import heatshrink2 as heatshrink
+from heatshrink2.core import Encoder, Reader, Writer
 
 from .constants import TEXT
 from .utils import TestUtilsMixin, random_string

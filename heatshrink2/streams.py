@@ -9,7 +9,7 @@ try:
 except ImportError:
     from __builtin__ import open as builtin_open
 
-import heatshrink.core as core
+import heatshrink2.core as core
 
 _READ_BUFFER_SIZE = io.DEFAULT_BUFFER_SIZE
 
