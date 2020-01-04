@@ -41,14 +41,14 @@ You can open a heatshrink file by using the :code:`open` function:
    >>> with heatshrink2.open('data.bin', mode='wb') as fp:
    ...     fp.write(b"Is there anybody in there?")
 
-You can also use :code:`EncodedFile` directly:
+You can also use :code:`HeatshrinkFile` directly:
 
 .. code-block:: python
 
-   >>> from heatshrink2 import EncodedFile
-   >>> with EncodedFile('data.bin') as fp:
+   >>> from heatshrink2 import HeatshrinkFile
+   >>> with HeatshrinkFile('data.bin') as fp:
    ...     print('Buffered:', fp.read(256))
-   >>> with EncodedFile('data.bin') as fp:
+   >>> with HeatshrinkFile('data.bin') as fp:
    ...     for line in fp:
    ...         print('Read line:', line)
 

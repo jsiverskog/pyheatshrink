@@ -5,7 +5,7 @@ import io
 import os
 import unittest
 
-from heatshrink2.streams import EncodedFile
+from heatshrink2.streams import HeatshrinkFile
 
 from .constants import TEXT
 from .constants import COMPRESSED
@@ -15,10 +15,10 @@ from .utils import random_string
 TEST_FILENAME = 'test_{}_tmp'.format(os.getpid())
 
 
-class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
+class HeatshrinkFileTest(TestUtilsMixin, unittest.TestCase):
 
     def setUp(self):
-        self.fp = EncodedFile(TEST_FILENAME, 'wb')
+        self.fp = HeatshrinkFile(TEST_FILENAME, 'wb')
 
     def tearDown(self):
         if self.fp:
@@ -29,13 +29,13 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
             os.unlink(TEST_FILENAME)
 
     def test_bad_args(self):
-        self.assertRaises(TypeError, EncodedFile, None)
-        self.assertRaises(ValueError, EncodedFile, None, mode='eb')
-        fp = self.assertNotRaises(EncodedFile, TEST_FILENAME, invalid_param=True)
+        self.assertRaises(TypeError, HeatshrinkFile, None)
+        self.assertRaises(ValueError, HeatshrinkFile, None, mode='eb')
+        fp = self.assertNotRaises(HeatshrinkFile, TEST_FILENAME, invalid_param=True)
         fp.close()
 
     def test_open_missing_file(self):
-        self.assertRaises(IOError, EncodedFile, 'does_not_exist.txt')
+        self.assertRaises(IOError, HeatshrinkFile, 'does_not_exist.txt')
 
     def test_mode_attribute_is_readonly(self):
         self.assertEqual(self.fp.mode, 'wb')
@@ -59,7 +59,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
             }
 
             with io.BytesIO() as dst:
-                with EncodedFile(dst, 'wb', **kwargs) as fp:
+                with HeatshrinkFile(dst, 'wb', **kwargs) as fp:
                     fp.write(TEXT)
 
                 encoded.append(dst.getvalue())
@@ -72,7 +72,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
 
         for mode in ['a+', 'w+', 'ab', 'r+', 'U', 'x', 'xb']:
             with self.assertRaisesRegexp(ValueError, '^Invalid mode: .*$'):
-                EncodedFile(data, mode=mode)
+                HeatshrinkFile(data, mode=mode)
 
     def test_round_trip(self):
         write_str = b'Testing\nAnd Stuff'
@@ -80,7 +80,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
         self.fp.write(write_str)
         self.fp.close()
 
-        self.fp = EncodedFile(TEST_FILENAME)
+        self.fp = HeatshrinkFile(TEST_FILENAME)
         self.assertEqual(self.fp.read(), write_str)
 
     def test_with_large_files(self):
@@ -90,10 +90,10 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
             contents = random_string(size)
             contents = contents.encode('ascii')
 
-            with EncodedFile(TEST_FILENAME, mode='wb') as fp:
+            with HeatshrinkFile(TEST_FILENAME, mode='wb') as fp:
                 fp.write(contents)
 
-            with EncodedFile(TEST_FILENAME) as fp:
+            with HeatshrinkFile(TEST_FILENAME) as fp:
                 read_str = fp.read()
 
             if read_str != contents:
@@ -107,10 +107,10 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
             contents = random_string(size)
             contents = contents.encode('ascii')
 
-            with EncodedFile(TEST_FILENAME, mode='wb') as fp:
+            with HeatshrinkFile(TEST_FILENAME, mode='wb') as fp:
                 fp.write(contents)
 
-            with EncodedFile(TEST_FILENAME) as fp:
+            with HeatshrinkFile(TEST_FILENAME) as fp:
                 # Read small buffer sizes
                 read_func = functools.partial(fp.read, 512)
                 read_str = b''.join([s for s in iter(read_func, b'')])
@@ -123,7 +123,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
     def test_with_file_object(self):
         plain_file = open(TEST_FILENAME, 'wb')
 
-        with EncodedFile(plain_file, mode='wb') as encoded_file:
+        with HeatshrinkFile(plain_file, mode='wb') as encoded_file:
             encoded_file.write(TEXT)
 
         self.assertTrue(encoded_file.closed)
@@ -140,7 +140,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
         self.assertTrue(self.fp.closed)
 
     def test_context_manager(self):
-        with EncodedFile(TEST_FILENAME, mode='wb') as fp:
+        with HeatshrinkFile(TEST_FILENAME, mode='wb') as fp:
             fp.write(b'Testing\n')
             fp.write(b'One, two...')
 
@@ -151,7 +151,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
         self.assertRaises(ValueError, self.fp.write, b'abcde')
         self.assertRaises(ValueError, self.fp.seek, 0)
 
-        self.fp = EncodedFile(TEST_FILENAME, 'rb')
+        self.fp = HeatshrinkFile(TEST_FILENAME, 'rb')
         self.fp.close()
         self.assertRaises(ValueError, self.fp.read)
         self.assertRaises(ValueError, self.fp.seek, 0)
@@ -161,7 +161,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
         self.fp.write(b'abcde')
         self.fp.close()
 
-        self.fp = EncodedFile(TEST_FILENAME)
+        self.fp = HeatshrinkFile(TEST_FILENAME)
         self.assertTrue(self.fp.readable())
         self.assertFalse(self.fp.writable())
         self.assertRaises(IOError, self.fp.write, b'abcde')
@@ -177,13 +177,13 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
     def test_seeking_forwards(self):
         contents = TEXT
 
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             self.assertEqual(fp.read(100), contents[:100])
             fp.seek(150)  # Move 50 forwards
             self.assertEqual(fp.read(100), contents[150:250])
 
     def test_seeking_backwards(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             contents = fp.read(100)
             fp.seek(0)
             self.assertEqual(fp.read(100), contents)
@@ -191,30 +191,30 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
     def test_seeking_forward_from_current(self):
         contents = TEXT
 
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             self.assertEqual(fp.read(100), contents[:100])
             fp.seek(50, io.SEEK_CUR)  # Move 50 forwards
             self.assertEqual(fp.read(100), contents[150:250])
 
     def test_seeking_backwards_from_current(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             contents = fp.read()
             fp.seek(-100, io.SEEK_CUR)
             self.assertEqual(fp.read(), contents[-100:])
 
     def test_seeking_beyond_beginning_from_current(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             self.assertRaises(IOError, fp.seek, -100, io.SEEK_CUR)
 
     def test_seeking_from_end(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             self.assertEqual(fp.read(100), TEXT[:100])
             seeked_pos = fp.seek(-100, io.SEEK_END)
             self.assertEqual(seeked_pos, len(TEXT) - 100)
             self.assertEqual(fp.read(100), TEXT[-100:])
 
     def test_seeking_from_end_beyond_beginning(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             # Go to end to get size
             size = fp.seek(0, io.SEEK_END)
             # Go to beginning
@@ -224,18 +224,18 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
 
     def test_tell(self):
         with io.BytesIO() as dst:
-            with EncodedFile(dst, mode='wb') as fp:
+            with HeatshrinkFile(dst, mode='wb') as fp:
                 bytes_written = fp.write(b'abcde')
                 self.assertEqual(fp.tell(), bytes_written)
 
             dst.seek(0)  # Reset
 
-            with EncodedFile(dst) as fp:
+            with HeatshrinkFile(dst) as fp:
                 fp.read(3)
                 self.assertEqual(fp.tell(), 3)
 
     def test_peek(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             pdata = fp.peek()
             self.assertNotEqual(len(pdata), 0)
             self.assertTrue(TEXT.startswith(pdata))
@@ -245,14 +245,14 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
     # Reading
     #################
     def test_read_whole_file(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             self.assertEqual(fp.read(), TEXT)
 
     def test_read_buffered(self):
         read_size = 128
         offset = 0
 
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             read_buf = functools.partial(fp.read, read_size)
 
             for i, contents in enumerate(iter(read_buf, b'')):
@@ -260,34 +260,34 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
                 self.assertEqual(contents, TEXT[offset:offset + read_size])
 
     def test_read_one_char(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             for c in TEXT:
                 self.assertEqual(fp.read(1), bytes([c]))
 
     def test_read1(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             blocks = [buf for buf in iter(fp.read1, b'')]
             self.assertEqual(b''.join(blocks), TEXT)
             self.assertEqual(fp.read1(), b'')
 
     def test_read1_0(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             self.assertEqual(fp.read1(0), b'')
 
     def test_readinto(self):
         with io.BytesIO() as dst:
-            with EncodedFile(dst, mode='wb') as fp:
+            with HeatshrinkFile(dst, mode='wb') as fp:
                 fp.write(b'abcde')
 
             dst.seek(0)  # Reset
 
-            with EncodedFile(dst) as fp:
+            with HeatshrinkFile(dst) as fp:
                 a = array.array('b', b'x' * 10)  # Fill with junk
                 n = fp.readinto(a)
                 self.assertEqual(b'abcde', a.tobytes()[:n])
 
     def test_readline(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             lines = TEXT.splitlines()
 
             # Could also use zip
@@ -295,14 +295,14 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
                 self.assertEqual(line, lines[i] + b'\n')
 
     def test_readline_iterator(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             lines = TEXT.splitlines()
 
             for file_line, original_line in zip(fp, lines):
                 self.assertEqual(file_line, original_line + b'\n')
 
     def test_readlines(self):
-        with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
+        with HeatshrinkFile(io.BytesIO(COMPRESSED)) as fp:
             lines = fp.readlines()
             self.assertEqual(b''.join(lines), TEXT)
 
@@ -315,7 +315,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
         text_buf = io.BytesIO(TEXT)
 
         with io.BytesIO() as dst:
-            with EncodedFile(dst, mode='wb') as fp:
+            with HeatshrinkFile(dst, mode='wb') as fp:
                 while True:
                     chunk = text_buf.read(BUFFER_SIZE)
 
@@ -328,7 +328,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
 
     def test_remaining_data_flushed_on_close(self):
         with io.BytesIO() as dst:
-            fp = EncodedFile(dst, mode='wb')
+            fp = HeatshrinkFile(dst, mode='wb')
             fp.write(TEXT)
             # Not flusshed
             self.assertEqual(len(dst.getvalue()), 0)
@@ -341,7 +341,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
             lines = fp.readlines()
 
         with io.BytesIO() as dst:
-            with EncodedFile(dst, mode='wb') as fp:
+            with HeatshrinkFile(dst, mode='wb') as fp:
                 fp.writelines(lines)
 
             self.assertEqual(dst.getvalue(), COMPRESSED)

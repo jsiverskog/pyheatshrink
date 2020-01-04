@@ -170,7 +170,7 @@ _MODE_READ = 1
 _MODE_WRITE = 2
 
 
-class EncodedFile(io.BufferedIOBase):
+class HeatshrinkFile(io.BufferedIOBase):
 
     def __init__(self, filename, mode='rb', **compress_options):
         """Open a heatshrink LZSS encoded file.
@@ -185,7 +185,6 @@ class EncodedFile(io.BufferedIOBase):
 
         """
 
-        self._lock = RLock()
         self._fp = None
         # Should the file be closed by us?
         self._close_fp = False
@@ -294,22 +293,21 @@ class EncodedFile(io.BufferedIOBase):
 
         """
 
-        with self._lock:
-            # Flush and finish the decoder.
-            if self._mode == _MODE_READ:
-                self._buffer.close()
-            elif self._mode == _MODE_WRITE:
-                self._fp.write(self._encoder.finish())
-                self._encoder = None
+        # Flush and finish the decoder.
+        if self._mode == _MODE_READ:
+            self._buffer.close()
+        elif self._mode == _MODE_WRITE:
+            self._fp.write(self._encoder.finish())
+            self._encoder = None
 
-            try:
-                # Actually close the internal file pointer.
-                if self._close_fp:
-                    self._fp.close()
-            finally:
-                self._fp = None
-                self._close_fp = False
-                self._mode = _MODE_CLOSED
+        try:
+            # Actually close the internal file pointer.
+            if self._close_fp:
+                self._fp.close()
+        finally:
+            self._fp = None
+            self._close_fp = False
+            self._mode = _MODE_CLOSED
 
     @property
     def closed(self):
@@ -336,9 +334,9 @@ class EncodedFile(io.BufferedIOBase):
 
         """
 
-        with self._lock:
-            self._check_can_read()
-            return self._buffer.peek(n)
+        self._check_can_read()
+
+        return self._buffer.peek(n)
 
     def read(self, size=-1):
         """Read up to size uncompressed bytes from the file.
@@ -350,8 +348,7 @@ class EncodedFile(io.BufferedIOBase):
 
         self._check_can_read()
 
-        with self._lock:
-            return self._buffer.read(size)
+        return self._buffer.read(size)
 
     def read1(self, size=-1):
         """Read up to size uncompressed bytes, while trying to avoid making
@@ -362,13 +359,12 @@ class EncodedFile(io.BufferedIOBase):
 
         """
 
-        with self._lock:
-            self._check_can_read()
+        self._check_can_read()
 
-            if size < 0:
-                size = io.DEFAULT_BUFFER_SIZE
+        if size < 0:
+            size = io.DEFAULT_BUFFER_SIZE
 
-            return self._buffer.read1(size)
+        return self._buffer.read1(size)
 
     def readinto(self, b):
         """Read bytes into b.
@@ -377,10 +373,9 @@ class EncodedFile(io.BufferedIOBase):
 
         """
 
-        with self._lock:
-            self._check_can_read()
+        self._check_can_read()
 
-            return self._buffer.readinto(b)
+        return self._buffer.readinto(b)
 
     def readline(self, size=-1):
         """Read a line of uncompressed bytes from the file.
@@ -392,10 +387,9 @@ class EncodedFile(io.BufferedIOBase):
 
         """
 
-        with self._lock:
-            self._check_can_read()
+        self._check_can_read()
 
-            return self._buffer.readline(size)
+        return self._buffer.readline(size)
 
     def readlines(self, size=-1):
         """Read a list of lines of uncompressed bytes from the file.
@@ -412,10 +406,9 @@ class EncodedFile(io.BufferedIOBase):
 
             size = size.__index__
 
-        with self._lock:
-            self._check_can_read()
+        self._check_can_read()
 
-            return self._buffer.readlines(size)
+        return self._buffer.readlines(size)
 
     def write(self, data):
         """Write a byte string to the file.
@@ -426,13 +419,12 @@ class EncodedFile(io.BufferedIOBase):
 
         """
 
-        with self._lock:
-            self._check_can_write()
-            compressed = self._encoder.fill(data)
-            self._fp.write(compressed)
-            self._pos += len(data)
+        self._check_can_write()
+        compressed = self._encoder.fill(data)
+        self._fp.write(compressed)
+        self._pos += len(data)
 
-            return len(data)
+        return len(data)
 
     def writelines(self, seq):
         """Write a sequence of byte strings to the file.
@@ -444,10 +436,9 @@ class EncodedFile(io.BufferedIOBase):
 
         """
 
-        with self._lock:
-            self._check_can_write()
+        self._check_can_write()
 
-            return super(EncodedFile, self).writelines(seq)
+        return super(HeatshrinkFile, self).writelines(seq)
 
     def seek(self, offset, whence=io.SEEK_SET):
         """Change the file position.
@@ -465,18 +456,18 @@ class EncodedFile(io.BufferedIOBase):
         this operation may be extremely slow.
 
         """
-        with self._lock:
-            self._check_can_seek()
 
-            return self._buffer.seek(offset, whence)
+        self._check_can_seek()
+
+        return self._buffer.seek(offset, whence)
 
     def tell(self):
         """Return the current file position."""
-        with self._lock:
-            if self._mode == _MODE_READ:
-                return self._buffer.tell()
 
-            return self._pos
+        if self._mode == _MODE_READ:
+            return self._buffer.tell()
+
+        return self._pos
 
 
 def open(filename, mode='rb', **kwargs):
@@ -489,9 +480,9 @@ def open(filename, mode='rb', **kwargs):
     The mode argument can be "rb", "wb". "r" and "w" are converted to
     "rb" and "rb" respectively.
 
-    This function is equivalent to the EncodedFile constructor:
-    EncodedFile(filename, mode, **compress_options).
+    This function is equivalent to the HeatshrinkFile constructor:
+    HeatshrinkFile(filename, mode, **compress_options).
 
     """
 
-    return EncodedFile(filename, mode, **kwargs)
+    return HeatshrinkFile(filename, mode, **kwargs)
