@@ -61,7 +61,7 @@ containing encoded (compressed) data.
 .. code-block:: python
 
    >>> import heatshrink2
-   >>> heatshrink2.encode(b'a string')
+   >>> heatshrink2.compress(b'a string')
    b'\xb0\xc8.wK\x95\xa6\xddg'
 
 The decoder accepts any object that implements the buffer protocol and
@@ -70,7 +70,7 @@ returns a byte representation of the decoded data.
 .. code-block:: python
 
    >>> import heatshrink2
-   >>> heatshrink2.decode(b'\xb0\xc8.wK\x95\xa6\xddg')
+   >>> heatshrink2.decompress(b'\xb0\xc8.wK\x95\xa6\xddg')
    b'a string'
 
 Parameters
