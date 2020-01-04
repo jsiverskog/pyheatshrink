@@ -38,7 +38,7 @@ You can open a heatshrink file by using the :code:`open` function:
 .. code-block:: python
 
    >>> import heatshrink2
-   >>> with heatshrink2.open('data.bin', mode='wb') as fp:
+   >>> with heatshrink2.open('data.bin', 'wb') as fp:
    ...     fp.write(b"Is there anybody in there?")
 
 You can also use :code:`HeatshrinkFile` directly:
