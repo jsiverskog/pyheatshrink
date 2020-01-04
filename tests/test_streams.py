@@ -14,15 +14,6 @@ from .utils import random_string
 
 TEST_FILENAME = 'test_{}_tmp'.format(os.getpid())
 
-PY3 = sys.version_info[0] == 3
-
-if PY3:
-    def bchr(s):
-        return bytes([s])
-else:
-    def bchr(s):
-        return s
-
 
 class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
 
@@ -59,10 +50,9 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
             (4, 3),
             (15, 9),
         ]
-
         encoded = []
 
-        for (window_sz2, lookahead_sz2) in encode_params:
+        for window_sz2, lookahead_sz2 in encode_params:
             kwargs = {
                 'window_sz2': window_sz2,
                 'lookahead_sz2': lookahead_sz2
@@ -259,23 +249,20 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
             self.assertEqual(fp.read(), TEXT)
 
     def test_read_buffered(self):
-        READ_SIZE = 128
+        read_size = 128
         offset = 0
 
         with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
-            read_buf = functools.partial(fp.read, READ_SIZE)
+            read_buf = functools.partial(fp.read, read_size)
 
             for i, contents in enumerate(iter(read_buf, b'')):
-                offset = READ_SIZE * i
-                self.assertEqual(
-                    contents,
-                    TEXT[offset: offset + READ_SIZE]
-                )
+                offset = read_size * i
+                self.assertEqual(contents, TEXT[offset:offset + read_size])
 
     def test_read_one_char(self):
         with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
             for c in TEXT:
-                self.assertEqual(fp.read(1), bchr(c))
+                self.assertEqual(fp.read(1), bytes([c]))
 
     def test_read1(self):
         with EncodedFile(io.BytesIO(COMPRESSED)) as fp:
@@ -297,11 +284,7 @@ class EncodedFileTest(TestUtilsMixin, unittest.TestCase):
             with EncodedFile(dst) as fp:
                 a = array.array('b', b'x' * 10)  # Fill with junk
                 n = fp.readinto(a)
-                try:
-                    # Python 3
-                    self.assertEqual(b'abcde', a.tobytes()[:n])
-                except AttributeError:
-                    self.assertEqual(b'abcde', a.tostring()[:n])
+                self.assertEqual(b'abcde', a.tobytes()[:n])
 
     def test_readline(self):
         with EncodedFile(io.BytesIO(COMPRESSED)) as fp:

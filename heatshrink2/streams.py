@@ -1,14 +1,8 @@
-from __future__ import absolute_import
 import errno
 import io
 import os
 from threading import RLock
-
-try:
-    from builtins import open as builtin_open
-    unicode = str
-except ImportError:
-    from __builtin__ import open as builtin_open
+from builtins import open as builtin_open
 
 import heatshrink2.core as core
 
@@ -181,10 +175,9 @@ class EncodedFile(io.BufferedIOBase):
     def __init__(self, filename, mode='rb', **compress_options):
         """Open a heatshrink LZSS encoded file.
 
-        If filename is a str, bytes or unicode object, it gives the
-        name of the file to be opened. Otherwise, it should be a
-        file-like object, which will be used to read or write the
-        compressed data.
+        If filename is a str or bytes object, it gives the name of the
+        file to be opened. Otherwise, it should be a file-like object,
+        which will be used to read or write the compressed data.
 
         mode can be 'rb for reading (default) or 'wb' for
         (over)writing.  'r' and 'w' will be converted to to 'rb' and
@@ -207,7 +200,7 @@ class EncodedFile(io.BufferedIOBase):
         else:
             raise ValueError("Invalid mode: '{!r}'".format(mode))
 
-        if isinstance(filename, (str, bytes, unicode)):
+        if isinstance(filename, (str, bytes)):
             self._fp = builtin_open(filename, self._mode_str)
             # We opened the file, we need to close it
             self._close_fp = True
