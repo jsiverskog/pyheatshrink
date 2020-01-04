@@ -1,10 +1,9 @@
 import os
 import time
 
-import heatshrink
+import heatshrink2
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-
 PLAIN_FILE_PATH = os.path.join(DATA_DIR, 'plain_file.txt')
 COMPRESSED_FILE_PATH = os.path.join(DATA_DIR, 'compressed_file.txt')
 
@@ -16,25 +15,28 @@ def print_block(msg, size=50):
     print(sep)
 
 
-def timed(f):
-    """Wraps function f and prints timing information.
+def timed(func):
+    """Wraps function func and prints timing information.
 
-    Timing is from when the function from function beginning
-    to end in seconds.
+    Timing is from when the function from function beginning to end in
+    seconds.
+
     """
+
     def wrap(*args):
-        initial = time.time()
-        ret = f(*args)
-        elapsed = time.time() - initial
+        start_time = time.time()
+        func(*args)
+        elapsed = time.time() - start_time
         print('==> {} seconds elapsed'.format(elapsed))
-        return ret
+
     return wrap
 
 
 def run_benchmarks():
     print_block('Encode benchmarks')
-    with open(PLAIN_FILE_PATH) as plain_file:
-        with heatshrink.open(COMPRESSED_FILE_PATH, 'wb') as compressed_file:
+
+    with open(PLAIN_FILE_PATH, 'rb') as plain_file:
+        with heatshrink2.open(COMPRESSED_FILE_PATH, 'wb') as compressed_file:
             timed_write = timed(compressed_file.write)
 
             print('*** Writing 10,000 bytes ***')
@@ -48,7 +50,8 @@ def run_benchmarks():
             print('==> Wrote {} bytes'.format(plain_file.tell()))
 
     print_block('Decode benchmarks')
-    with heatshrink.open(COMPRESSED_FILE_PATH) as compressed_file:
+
+    with heatshrink2.open(COMPRESSED_FILE_PATH, 'rb') as compressed_file:
         timed_read = timed(compressed_file.read)
         print('*** Reading 10,000 bytes ***')
         timed_read(10000)

@@ -4,22 +4,11 @@ PyHeatshrink
 .. image:: https://travis-ci.org/eerimoq/pyheatshrink.svg?branch=master
     :target: https://travis-ci.org/eerimoq/pyheatshrink
 
-Python binding to the `heatshrink LZSS compression
-library <https://github.com/atomicobject/heatshrink>`__.
-
-| **Supported versions:**
-| Python >= 2.7 -- Full
-| Python 3 -- Experimental
-|
-| **Tested platforms:**
-| * OS X > 10.10
-| * Debian 8
-| * FreeBSD 10
+Python 3 binding to the `heatshrink LZSS compression library
+<https://github.com/atomicobject/heatshrink>`__.
 
 Plans
 -----
-
-- Drop Python 2 support.
 
 - API similar to Python's standard library :code:`lzma` and
   :code:`bz2` modules.
@@ -29,7 +18,7 @@ Installation
 
 From PyPI:
 
-::
+.. code-block::
 
    $ pip install heatshrink2
 
@@ -50,7 +39,7 @@ You can open a heatshrink file by using the :code:`open` function:
 
    >>> import heatshrink2
    >>> with heatshrink2.open('data.bin', mode='wb') as fp:
-   ...     fp.write("Is there anybody in there?")
+   ...     fp.write(b"Is there anybody in there?")
 
 You can also use :code:`EncodedFile` directly:
 
@@ -58,11 +47,10 @@ You can also use :code:`EncodedFile` directly:
 
    >>> from heatshrink2 import EncodedFile
    >>> with EncodedFile('data.bin') as fp:
-   ...     # Read a buffer
-   ...     print('Buffered: %r' % fp.read(256))
-   ...     # Iterate through lines
+   ...     print('Buffered:', fp.read(256))
+   >>> with EncodedFile('data.bin') as fp:
    ...     for line in fp:
-   ...         print('Read line: %r' % line)
+   ...         print('Read line:', line)
 
 Byte strings
 ^^^^^^^^^^^^
@@ -73,11 +61,8 @@ containing encoded (compressed) data.
 .. code-block:: python
 
    >>> import heatshrink2
-   >>> encoded = heatshrink2.encode('a string')
-   >>> type(encoded)
-   <type 'str'>  # <class 'bytes'> in Python 3
-   >>> encoded
-   '\xb0\xc8.wK\x95\xa6\xddg'
+   >>> heatshrink2.encode(b'a string')
+   b'\xb0\xc8.wK\x95\xa6\xddg'
 
 The decoder accepts any object that implements the buffer protocol and
 returns a byte representation of the decoded data.
@@ -85,11 +70,8 @@ returns a byte representation of the decoded data.
 .. code-block:: python
 
    >>> import heatshrink2
-   >>> decoded = heatshrink2.decode(b'\xb0\xc8.wK\x95\xa6\xddg')
-   >>> type(decoded)
-   <type 'str'>  # <class 'bytes'> in Python 3
-   >>> decoded
-   'a string'
+   >>> heatshrink2.decode(b'\xb0\xc8.wK\x95\xa6\xddg')
+   b'a string'
 
 Parameters
 ^^^^^^^^^^
@@ -131,7 +113,7 @@ The benchmarks check compression/decompression against a ~6MB file:
 
 .. code-block::
 
-   $ python bench/benchmarks.py
+   $ python scripts/benchmarks.py
 
 Testing
 -------
