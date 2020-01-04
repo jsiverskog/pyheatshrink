@@ -6,6 +6,8 @@ import os
 import unittest
 
 from heatshrink2.streams import HeatshrinkFile
+from heatshrink2.streams import HeatshrinkCompressor
+from heatshrink2.streams import HeatshrinkDecompressor
 
 from .constants import TEXT
 from .constants import COMPRESSED
@@ -340,3 +342,33 @@ class HeatshrinkFileTest(TestUtilsMixin, unittest.TestCase):
                 fp.writelines(lines)
 
             self.assertEqual(dst.getvalue(), COMPRESSED)
+
+
+class HeatshrinkCompressorTest(unittest.TestCase):
+
+    def test_empty(self):
+        compressor = HeatshrinkCompressor()
+        self.assertEqual(compressor.compress(b''), b'')
+        self.assertEqual(compressor.flush(), b'')
+
+    def test_short_data(self):
+        compressor = HeatshrinkCompressor()
+        compressed = compressor.compress(b'abcde')
+        compressed += compressor.flush()
+        self.assertEqual(compressed, b'\xb0\xd8\xacvK(')
+
+
+class HeatshrinkDecompressorTest(unittest.TestCase):
+
+    def test_empty(self):
+        decompressor = HeatshrinkDecompressor(0)
+        self.assertTrue(decompressor.needs_input)
+        self.assertEqual(decompressor.decompress(b'', 10), b'')
+        self.assertTrue(decompressor.eof)
+
+    def test_short_data(self):
+        compressed = b'\xb0\xd8\xacvK('
+        decompressor = HeatshrinkDecompressor(len(compressed))
+        decompressed = decompressor.decompress(compressed, 10)
+        self.assertEqual(decompressed, b'abcde')
+        self.assertTrue(decompressor.eof)

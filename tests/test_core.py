@@ -138,7 +138,7 @@ class DecompressFunctionTest(TestUtilsMixin, unittest.TestCase):
         self.assertEqual(decompressed, b'abcde')
 
 
-class CompressedecompressTest(TestUtilsMixin, unittest.TestCase):
+class CompressDecompressTest(TestUtilsMixin, unittest.TestCase):
     """Tests assertion that data passed through the compress and then the
     decompress functions with the same parameters will be equal to the
     original data.
