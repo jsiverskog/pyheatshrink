@@ -12,4 +12,4 @@ install:
 script:
   - make test
   - make test-sdist
-  - python scripts/benchmark.py
+  - PYTHONPATH=. python scripts/benchmark.py
