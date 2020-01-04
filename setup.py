@@ -15,10 +15,8 @@ EXT = '.pyx' if USE_CYTHON else '.c'
 
 heatshrink_module = Extension('heatshrink2.core',
                               include_dirs=[
-                                  '.',
-                                  './heatshrink2/_heatshrink'
+                                  'heatshrink2/_heatshrink'
                               ],
-                              extra_compile_args=['-std=c99'],
                               sources=[
                                   'heatshrink2/core' + EXT,
                                   'heatshrink2/_heatshrink/heatshrink_encoder.c',
