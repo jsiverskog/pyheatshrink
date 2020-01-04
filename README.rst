@@ -38,18 +38,18 @@ You can open a heatshrink file by using the :code:`open` function:
 .. code-block:: python
 
    >>> import heatshrink2
-   >>> with heatshrink2.open('data.bin', 'wb') as fp:
-   ...     fp.write(b"Is there anybody in there?")
+   >>> with heatshrink2.open('data.bin', 'wb') as fout:
+   ...     fout.write(b"Is there anybody in there?")
 
 You can also use :code:`HeatshrinkFile` directly:
 
 .. code-block:: python
 
    >>> from heatshrink2 import HeatshrinkFile
-   >>> with HeatshrinkFile('data.bin') as fp:
-   ...     print('Buffered:', fp.read(256))
-   >>> with HeatshrinkFile('data.bin') as fp:
-   ...     for line in fp:
+   >>> with HeatshrinkFile('data.bin') as fin:
+   ...     print('Buffered:', fin.read(256))
+   >>> with HeatshrinkFile('data.bin') as fin:
+   ...     for line in fin:
    ...         print('Read line:', line)
 
 Byte strings
