@@ -1,8 +1,8 @@
+|buildstatus|_
+|appveyor|_
+
 PyHeatshrink
 ============
-
-.. image:: https://travis-ci.org/eerimoq/pyheatshrink.svg?branch=master
-    :target: https://travis-ci.org/eerimoq/pyheatshrink
 
 Python 3 binding to the `heatshrink LZSS compression library
 <https://github.com/atomicobject/heatshrink>`__.
@@ -128,3 +128,9 @@ License
 -------
 
 ISC license
+
+.. |buildstatus| image:: https://travis-ci.org/eerimoq/pyheatshrink.svg?branch=master
+.. _buildstatus: https://travis-ci.org/eerimoq/pyheatshrink
+
+.. |appveyor| image:: https://ci.appveyor.com/api/projects/status/github/eerimoq/pyheatshrink?svg=true
+.. _appveyor: https://ci.appveyor.com/project/eerimoq/pyheatshrink/branch/master
