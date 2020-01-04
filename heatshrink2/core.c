@@ -1981,8 +1981,8 @@ static PyObject *__pyx_pf_11heatshrink2_4core_7Encoder_4_drain(CYTHON_UNUSED PyO
 static PyObject *__pyx_pf_11heatshrink2_4core_7Encoder_7fill(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_buf); /* proto */
 static PyObject *__pyx_pf_11heatshrink2_4core_7Encoder_9finish(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_11heatshrink2_4core_7Encoder_11finished(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11heatshrink2_4core_6encode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_buf, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_11heatshrink2_4core_8decode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_buf, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_11heatshrink2_4core_6encode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_data, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_11heatshrink2_4core_8decode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_data, PyObject *__pyx_v_kwargs); /* proto */
 static int __pyx_pf_7cpython_5array_5array___getbuffer__(arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info, CYTHON_UNUSED int __pyx_v_flags); /* proto */
 static void __pyx_pf_7cpython_5array_5array_2__releasebuffer__(CYTHON_UNUSED arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_tp_new_11heatshrink2_4core_Writer(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -6623,17 +6623,17 @@ static PyObject *__pyx_f_11heatshrink2_4core__encode_impl(PyObject *__pyx_v_enco
 /* "heatshrink2/core.pyx":345
  * 
  * 
- * def encode(buf, **kwargs):             # <<<<<<<<<<<<<<
- *     """Encode iterable `buf` in to a byte string.
+ * def encode(data, **kwargs):             # <<<<<<<<<<<<<<
+ *     """Encode iterable `data` in to a byte string.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11heatshrink2_4core_7encode(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11heatshrink2_4core_6encode[] = "Encode iterable `buf` in to a byte string.\n\n    Keyword arguments:\n\n        window_sz2 (int): Determines how far back in the input can be\n            searched for repeated patterns. Defaults to\n            `DEFAULT_WINDOW_SZ2`.  Allowed values are\n            between. `MIN_WINDOW_SZ2` and `MAX_WINDOW_SZ2`.\n\n        lookahead_sz2 (int): Determines the max length for repeated\n            patterns that are found. Defaults to\n            `DEFAULT_LOOKAHEAD_SZ2`.  Allowed values are between\n            `MIN_LOOKAHEAD_SZ2` and the value set for `window_sz2`.\n\n    Returns:\n\n        str or bytes: A byte string of encoded contents.  str is used\n            for Python 2 and bytes for Python 3.\n\n    Raises:\n\n        ValueError: If `window_sz2` or `lookahead_sz2` are outside\n            their defined ranges.\n\n        TypeError: If `window_sz2`, `lookahead_sz2` are not valid\n            numbers and if `buf` is not a valid iterable.\n\n        RuntimeError: Thrown if internal polling or sinking of the\n            encoder/decoder fails.\n\n    ";
+static char __pyx_doc_11heatshrink2_4core_6encode[] = "Encode iterable `data` in to a byte string.\n\n    Keyword arguments:\n\n        window_sz2 (int): Determines how far back in the input can be\n            searched for repeated patterns. Defaults to\n            `DEFAULT_WINDOW_SZ2`.  Allowed values are\n            between. `MIN_WINDOW_SZ2` and `MAX_WINDOW_SZ2`.\n\n        lookahead_sz2 (int): Determines the max length for repeated\n            patterns that are found. Defaults to\n            `DEFAULT_LOOKAHEAD_SZ2`.  Allowed values are between\n            `MIN_LOOKAHEAD_SZ2` and the value set for `window_sz2`.\n\n    Returns:\n\n        str or bytes: A byte string of encoded contents.  str is used\n            for Python 2 and bytes for Python 3.\n\n    Raises:\n\n        ValueError: If `window_sz2` or `lookahead_sz2` are outside\n            their defined ranges.\n\n        TypeError: If `window_sz2`, `lookahead_sz2` are not valid\n            numbers and if `data` is not a valid iterable.\n\n        RuntimeError: Thrown if internal polling or sinking of the\n            encoder/decoder fails.\n\n    ";
 static PyMethodDef __pyx_mdef_11heatshrink2_4core_7encode = {"encode", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11heatshrink2_4core_7encode, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11heatshrink2_4core_6encode};
 static PyObject *__pyx_pw_11heatshrink2_4core_7encode(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_buf = 0;
+  PyObject *__pyx_v_data = 0;
   PyObject *__pyx_v_kwargs = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -6641,7 +6641,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_7encode(PyObject *__pyx_self, PyOb
   __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
   __Pyx_GOTREF(__pyx_v_kwargs);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_buf,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_data,0};
     PyObject* values[1] = {0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -6655,7 +6655,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_7encode(PyObject *__pyx_self, PyOb
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_buf)) != 0)) kw_args--;
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_data)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
@@ -6666,7 +6666,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_7encode(PyObject *__pyx_self, PyOb
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_buf = values[0];
+    __pyx_v_data = values[0];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -6677,7 +6677,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_7encode(PyObject *__pyx_self, PyOb
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11heatshrink2_4core_6encode(__pyx_self, __pyx_v_buf, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_11heatshrink2_4core_6encode(__pyx_self, __pyx_v_data, __pyx_v_kwargs);
 
   /* function exit code */
   __Pyx_XDECREF(__pyx_v_kwargs);
@@ -6685,7 +6685,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_7encode(PyObject *__pyx_self, PyOb
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11heatshrink2_4core_6encode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_buf, PyObject *__pyx_v_kwargs) {
+static PyObject *__pyx_pf_11heatshrink2_4core_6encode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_data, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6695,14 +6695,14 @@ static PyObject *__pyx_pf_11heatshrink2_4core_6encode(CYTHON_UNUSED PyObject *__
   /* "heatshrink2/core.pyx":378
  *     """
  * 
- *     return _encode_impl(Writer(**kwargs), buf)             # <<<<<<<<<<<<<<
+ *     return _encode_impl(Writer(**kwargs), data)             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_11heatshrink2_4core_Writer), __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_f_11heatshrink2_4core__encode_impl(__pyx_t_1, __pyx_v_buf); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_11heatshrink2_4core__encode_impl(__pyx_t_1, __pyx_v_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 378, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
@@ -6712,8 +6712,8 @@ static PyObject *__pyx_pf_11heatshrink2_4core_6encode(CYTHON_UNUSED PyObject *__
   /* "heatshrink2/core.pyx":345
  * 
  * 
- * def encode(buf, **kwargs):             # <<<<<<<<<<<<<<
- *     """Encode iterable `buf` in to a byte string.
+ * def encode(data, **kwargs):             # <<<<<<<<<<<<<<
+ *     """Encode iterable `data` in to a byte string.
  * 
  */
 
@@ -6732,17 +6732,17 @@ static PyObject *__pyx_pf_11heatshrink2_4core_6encode(CYTHON_UNUSED PyObject *__
 /* "heatshrink2/core.pyx":381
  * 
  * 
- * def decode(buf, **kwargs):             # <<<<<<<<<<<<<<
- *     """Decode iterable `buf` in to a byte string.
+ * def decode(data, **kwargs):             # <<<<<<<<<<<<<<
+ *     """Decode iterable `data` in to a byte string.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11heatshrink2_4core_9decode(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11heatshrink2_4core_8decode[] = "Decode iterable `buf` in to a byte string.\n\n    Keyword arguments:\n\n        input_buffer_size (int): How large an input buffer to use for\n            the decoder.  This impacts how much work the decoder can\n            do in a single step, a larger buffer will use more memory.\n\n        window_sz2 (int): Determines how far back in the input can be\n            searched for repeated patterns. Defaults to\n            `DEFAULT_WINDOW_SZ2`.  Allowed values are\n            between. `MIN_WINDOW_SZ2` and `MAX_WINDOW_SZ2`.\n\n        lookahead_sz2 (int): Determines the max length for repeated\n            patterns that are found. Defaults to\n            `DEFAULT_LOOKAHEAD_SZ2`.  Allowed values are between\n            `MIN_LOOKAHEAD_SZ2` and the value set for `window_sz2`.\n\n    Returns:\n\n        str or bytes: A byte string of decoded contents.  str is used\n            for Python 2 and bytes for Python 3.\n\n    Raises:\n\n        ValueError: If `input_buffer_size`, `window_sz2` or\n            `lookahead_sz2` are outside their defined ranges.\n\n        TypeError: If `input_buffer_size`, `window_sz2` or\n            `lookahead_sz2` are not valid numbers and if `buf` is not\n            a valid iterable.\n\n        RuntimeError: Thrown if internal polling or sinking of the\n            encoder/decoder fails.\n\n    ";
+static char __pyx_doc_11heatshrink2_4core_8decode[] = "Decode iterable `data` in to a byte string.\n\n    Keyword arguments:\n\n        input_buffer_size (int): How large an input buffer to use for\n            the decoder.  This impacts how much work the decoder can\n            do in a single step, a larger buffer will use more memory.\n\n        window_sz2 (int): Determines how far back in the input can be\n            searched for repeated patterns. Defaults to\n            `DEFAULT_WINDOW_SZ2`.  Allowed values are\n            between. `MIN_WINDOW_SZ2` and `MAX_WINDOW_SZ2`.\n\n        lookahead_sz2 (int): Determines the max length for repeated\n            patterns that are found. Defaults to\n            `DEFAULT_LOOKAHEAD_SZ2`.  Allowed values are between\n            `MIN_LOOKAHEAD_SZ2` and the value set for `window_sz2`.\n\n    Returns:\n\n        str or bytes: A byte string of decoded contents.  str is used\n            for Python 2 and bytes for Python 3.\n\n    Raises:\n\n        ValueError: If `input_buffer_size`, `window_sz2` or\n            `lookahead_sz2` are outside their defined ranges.\n\n        TypeError: If `input_buffer_size`, `window_sz2` or\n            `lookahead_sz2` are not valid numbers and if `data` is not\n            a valid iterable.\n\n        RuntimeError: Thrown if internal polling or sinking of the\n            encoder/decoder fails.\n\n    ";
 static PyMethodDef __pyx_mdef_11heatshrink2_4core_9decode = {"decode", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11heatshrink2_4core_9decode, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11heatshrink2_4core_8decode};
 static PyObject *__pyx_pw_11heatshrink2_4core_9decode(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_buf = 0;
+  PyObject *__pyx_v_data = 0;
   PyObject *__pyx_v_kwargs = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -6750,7 +6750,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_9decode(PyObject *__pyx_self, PyOb
   __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
   __Pyx_GOTREF(__pyx_v_kwargs);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_buf,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_data,0};
     PyObject* values[1] = {0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -6764,7 +6764,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_9decode(PyObject *__pyx_self, PyOb
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_buf)) != 0)) kw_args--;
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_data)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
@@ -6775,7 +6775,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_9decode(PyObject *__pyx_self, PyOb
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_buf = values[0];
+    __pyx_v_data = values[0];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -6786,7 +6786,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_9decode(PyObject *__pyx_self, PyOb
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11heatshrink2_4core_8decode(__pyx_self, __pyx_v_buf, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_11heatshrink2_4core_8decode(__pyx_self, __pyx_v_data, __pyx_v_kwargs);
 
   /* function exit code */
   __Pyx_XDECREF(__pyx_v_kwargs);
@@ -6794,7 +6794,7 @@ static PyObject *__pyx_pw_11heatshrink2_4core_9decode(PyObject *__pyx_self, PyOb
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11heatshrink2_4core_8decode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_buf, PyObject *__pyx_v_kwargs) {
+static PyObject *__pyx_pf_11heatshrink2_4core_8decode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_data, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6804,12 +6804,12 @@ static PyObject *__pyx_pf_11heatshrink2_4core_8decode(CYTHON_UNUSED PyObject *__
   /* "heatshrink2/core.pyx":419
  *     """
  * 
- *     return _encode_impl(Reader(**kwargs), buf)             # <<<<<<<<<<<<<<
+ *     return _encode_impl(Reader(**kwargs), data)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_11heatshrink2_4core_Reader), __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 419, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_f_11heatshrink2_4core__encode_impl(__pyx_t_1, __pyx_v_buf); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 419, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_11heatshrink2_4core__encode_impl(__pyx_t_1, __pyx_v_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 419, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
@@ -6819,8 +6819,8 @@ static PyObject *__pyx_pf_11heatshrink2_4core_8decode(CYTHON_UNUSED PyObject *__
   /* "heatshrink2/core.pyx":381
  * 
  * 
- * def decode(buf, **kwargs):             # <<<<<<<<<<<<<<
- *     """Decode iterable `buf` in to a byte string.
+ * def decode(data, **kwargs):             # <<<<<<<<<<<<<<
+ *     """Decode iterable `data` in to a byte string.
  * 
  */
 
@@ -8210,11 +8210,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "heatshrink2/core.pyx":345
  * 
  * 
- * def encode(buf, **kwargs):             # <<<<<<<<<<<<<<
- *     """Encode iterable `buf` in to a byte string.
+ * def encode(data, **kwargs):             # <<<<<<<<<<<<<<
+ *     """Encode iterable `data` in to a byte string.
  * 
  */
-  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 345, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_n_s_data, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
   __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_heatshrink2_core_pyx, __pyx_n_s_encode, 345, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 345, __pyx_L1_error)
@@ -8222,11 +8222,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "heatshrink2/core.pyx":381
  * 
  * 
- * def decode(buf, **kwargs):             # <<<<<<<<<<<<<<
- *     """Decode iterable `buf` in to a byte string.
+ * def decode(data, **kwargs):             # <<<<<<<<<<<<<<
+ *     """Decode iterable `data` in to a byte string.
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(2, __pyx_n_s_data, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
   __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_heatshrink2_core_pyx, __pyx_n_s_decode, 381, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 381, __pyx_L1_error)
@@ -8807,8 +8807,8 @@ if (!__Pyx_RefNanny) {
   /* "heatshrink2/core.pyx":345
  * 
  * 
- * def encode(buf, **kwargs):             # <<<<<<<<<<<<<<
- *     """Encode iterable `buf` in to a byte string.
+ * def encode(data, **kwargs):             # <<<<<<<<<<<<<<
+ *     """Encode iterable `data` in to a byte string.
  * 
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_11heatshrink2_4core_7encode, NULL, __pyx_n_s_heatshrink2_core); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 345, __pyx_L1_error)
@@ -8819,8 +8819,8 @@ if (!__Pyx_RefNanny) {
   /* "heatshrink2/core.pyx":381
  * 
  * 
- * def decode(buf, **kwargs):             # <<<<<<<<<<<<<<
- *     """Decode iterable `buf` in to a byte string.
+ * def decode(data, **kwargs):             # <<<<<<<<<<<<<<
+ *     """Decode iterable `data` in to a byte string.
  * 
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_11heatshrink2_4core_9decode, NULL, __pyx_n_s_heatshrink2_core); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)

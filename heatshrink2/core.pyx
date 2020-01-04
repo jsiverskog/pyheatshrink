@@ -342,8 +342,8 @@ cdef _encode_impl(encoder, buf):
     return encoder.fill(buf) + encoder.finish()
 
 
-def encode(buf, **kwargs):
-    """Encode iterable `buf` in to a byte string.
+def encode(data, **kwargs):
+    """Encode iterable `data` in to a byte string.
 
     Keyword arguments:
 
@@ -368,18 +368,18 @@ def encode(buf, **kwargs):
             their defined ranges.
 
         TypeError: If `window_sz2`, `lookahead_sz2` are not valid
-            numbers and if `buf` is not a valid iterable.
+            numbers and if `data` is not a valid iterable.
 
         RuntimeError: Thrown if internal polling or sinking of the
             encoder/decoder fails.
 
     """
 
-    return _encode_impl(Writer(**kwargs), buf)
+    return _encode_impl(Writer(**kwargs), data)
 
 
-def decode(buf, **kwargs):
-    """Decode iterable `buf` in to a byte string.
+def decode(data, **kwargs):
+    """Decode iterable `data` in to a byte string.
 
     Keyword arguments:
 
@@ -408,7 +408,7 @@ def decode(buf, **kwargs):
             `lookahead_sz2` are outside their defined ranges.
 
         TypeError: If `input_buffer_size`, `window_sz2` or
-            `lookahead_sz2` are not valid numbers and if `buf` is not
+            `lookahead_sz2` are not valid numbers and if `data` is not
             a valid iterable.
 
         RuntimeError: Thrown if internal polling or sinking of the
@@ -416,4 +416,4 @@ def decode(buf, **kwargs):
 
     """
 
-    return _encode_impl(Reader(**kwargs), buf)
+    return _encode_impl(Reader(**kwargs), data)

@@ -96,9 +96,7 @@ class HeatshrinkFileTest(TestUtilsMixin, unittest.TestCase):
             with HeatshrinkFile(TEST_FILENAME) as fp:
                 read_str = fp.read()
 
-            if read_str != contents:
-                msg = 'Decoded and original file contents do not match for size: {}'
-                self.fail(msg.format(size))
+            self.assertEqual(read_str, contents)
 
     def test_buffered_large_files(self):
         test_sizes = [1000, 10000, 100000]
@@ -115,10 +113,7 @@ class HeatshrinkFileTest(TestUtilsMixin, unittest.TestCase):
                 read_func = functools.partial(fp.read, 512)
                 read_str = b''.join([s for s in iter(read_func, b'')])
 
-            if read_str != contents:
-                msg = ('Decoded and original file contents '
-                       'do not match for size: {}')
-                self.fail(msg.format(size))
+            self.assertEqual(read_str, contents)
 
     def test_with_file_object(self):
         plain_file = open(TEST_FILENAME, 'wb')
