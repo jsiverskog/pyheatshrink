@@ -13,3 +13,4 @@ script:
   - make test
   - make test-sdist
   - PYTHONPATH=. python scripts/benchmark.py
+  - make fuzz FUZZ_TIME=1
