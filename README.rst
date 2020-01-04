@@ -40,6 +40,9 @@ You can open a heatshrink file by using the :code:`open` function:
    >>> import heatshrink2
    >>> with heatshrink2.open('data.bin', 'wb') as fout:
    ...     fout.write(b"Is there anybody in there?")
+   ...
+   26
+   >>>
 
 You can also use :code:`HeatshrinkFile` directly:
 
@@ -47,10 +50,15 @@ You can also use :code:`HeatshrinkFile` directly:
 
    >>> from heatshrink2 import HeatshrinkFile
    >>> with HeatshrinkFile('data.bin') as fin:
-   ...     print('Buffered:', fin.read(256))
+   ...     print(fin.read(256))
+   ...
+   b'Is there anybody in there?'
    >>> with HeatshrinkFile('data.bin') as fin:
    ...     for line in fin:
-   ...         print('Read line:', line)
+   ...         print(line)
+   ...
+   b'Is there anybody in there?'
+   >>>
 
 Byte strings
 ^^^^^^^^^^^^
@@ -63,6 +71,7 @@ containing encoded (compressed) data.
    >>> import heatshrink2
    >>> heatshrink2.compress(b'a string')
    b'\xb0\xc8.wK\x95\xa6\xddg'
+   >>>
 
 The decoder accepts any object that implements the buffer protocol and
 returns a byte representation of the decoded data.
@@ -72,6 +81,7 @@ returns a byte representation of the decoded data.
    >>> import heatshrink2
    >>> heatshrink2.decompress(b'\xb0\xc8.wK\x95\xa6\xddg')
    b'a string'
+   >>>
 
 Parameters
 ^^^^^^^^^^
