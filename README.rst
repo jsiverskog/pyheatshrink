@@ -7,12 +7,6 @@ PyHeatshrink
 Python 3 binding to the `heatshrink LZSS compression library
 <https://github.com/atomicobject/heatshrink>`__.
 
-Plans
------
-
-- API similar to Python's standard library :code:`lzma` and
-  :code:`bz2` modules.
-
 Installation
 ------------
 
