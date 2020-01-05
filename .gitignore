@@ -8,3 +8,4 @@ cython_debug/
 *.egg-info
 *.pyc
 *_tmp
+/foo*

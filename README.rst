@@ -111,6 +111,23 @@ details.
 For more use cases, please refer to the `tests folder
 <https://github.com/eerimoq/pyheatshrink/blob/master/tests>`__.
 
+Command line
+------------
+
+The command line tool can compress and decompress files.
+
+Below is an example of the compress and decompress subcommands.
+
+.. code-block::
+
+   $ ls -l tests/files/foo.txt
+   -rw-rw-r-- 1 erik erik 3970 jan  5 12:23 tests/files/foo.txt
+   $ python3 -m heatshrink2 compress tests/files/foo.txt foo.hs
+   $ ls -l foo.hs
+   -rw-rw-r-- 1 erik erik 2727 jan  5 12:24 foo.hs
+   $ python3 -m heatshrink2 compress foo.hs foo.txt
+   $ cmp tests/files/foo.txt foo.txt
+
 Benchmarks
 ----------
 
