@@ -1,7 +1,7 @@
 import errno
 import io
 import os
-from builtins import open as builtin_open
+import builtins
 
 import heatshrink2.core as core
 
@@ -37,6 +37,7 @@ class _DecompressReader(io.RawIOBase):
     def _new_decoder(self):
         """Create a new decoder using the reader factory and args."""
         reader = self._reader_factory(**self._reader_args)
+        
         return core.Encoder(reader)
 
     def close(self):
@@ -189,7 +190,7 @@ class HeatshrinkFile(io.BufferedIOBase):
             raise ValueError("Invalid mode: '{!r}'".format(mode))
 
         if isinstance(filename, (str, bytes)):
-            self._fp = builtin_open(filename, self._mode_str)
+            self._fp = builtins.open(filename, self._mode_str)
             # We opened the file, we need to close it
             self._close_fp = True
         elif hasattr(filename, 'read') or hasattr(filename, 'write'):
