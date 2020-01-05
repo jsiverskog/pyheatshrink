@@ -1,7 +1,6 @@
 import errno
 import io
 import os
-from threading import RLock
 from builtins import open as builtin_open
 
 import heatshrink2.core as core
