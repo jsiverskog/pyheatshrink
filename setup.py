@@ -1,3 +1,4 @@
+import re
 from setuptools import setup
 from setuptools import Extension
 
@@ -7,6 +8,12 @@ except ImportError:
     USE_CYTHON = False
 else:
     USE_CYTHON = True
+
+
+def find_version():
+    return re.search(r"^__version__ = '(.*)'$",
+                     open('heatshrink2/version.py', 'r').read(),
+                     re.MULTILINE).group(1)
 
 
 # Compiled file extension to use. If we're not using Cython,
@@ -29,7 +36,7 @@ else:
     extensions = [heatshrink_module]
 
 setup(name='heatshrink2',
-      version='0.5.0',
+      version=find_version(),
       author='Antonis Kalou @ JOHAN Sports, Erik Moqvist',
       author_email='antonis@johan-sports.com, erik.moqvist@gmail.com',
       description='Python bindings to the heatshrink library',

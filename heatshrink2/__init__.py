@@ -5,11 +5,12 @@ from .core import decode as decompress
 from .streams import open
 from .streams import HeatshrinkFile
 from .streams import HeatshrinkFile as EncodedFile
+from .version import __version__
 
 __all__ = [
-    'encode',
-    'decode',
+    'compress',
+    'decompress',
     'open',
     'HeatshrinkFile',
-    'EncodedFile'
+    '__version__'
 ]
