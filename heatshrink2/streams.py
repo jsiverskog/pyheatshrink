@@ -49,15 +49,7 @@ class _DecompressReader(io.RawIOBase):
         return True
 
     def seekable(self):
-        try:
-            # Python 3
-            return self._fp.seekable()
-        except AttributeError:
-            # Python 2 file object
-            # TODO: Check that this is actually robust.
-            # TODO: What happens if .seek() is implemented
-            # TODO: but not .tell() or .truncate()
-            return hasattr(self._fp, 'seek')
+        return self._fp.seekable()
 
     def readinto(self, b):
         buf = self.read(len(b))
