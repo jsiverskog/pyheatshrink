@@ -1,6 +1,7 @@
 include README.rst
 include LICENSE
 include tests/**
+include tests/files/**
 
 # Headers. For some reason, setuptools doesn't support this.
 include heatshrink2/_heatshrink/LICENSE
