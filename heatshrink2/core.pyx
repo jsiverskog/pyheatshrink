@@ -15,48 +15,21 @@ DEFAULT_LOOKAHEAD_SZ2 = 4
 
 DEFAULT_INPUT_BUFFER_SIZE = 2048
 
-
-def _validate_bounds(val, name, min=None, max=None):
-    """Ensure that `val` is larger than `min` and smaller than `max`.
-
-    Throws `ValueError` if constraints are not met or
-    if both `min` and `max` are None.
-    Throws `TypeError` if `val` is not a number.
-
-    """
-
-    if min is None and max is None:
-        raise ValueError("Expecting either a min or max parameter")
-
-    if not isinstance(val, numbers.Number):
-        msg = 'Expected number, got {}'
-        raise TypeError(msg.format(val.__class__.__name__))
-
-    if min is not None and val < min:
-        msg = "{} must be >= {}".format(name, min)
-    elif max is not None and val > max:
-        msg = "{} must be <= {}".format(name, max)
-    else:
-        msg = ''
-
-    if msg:
-        raise ValueError(msg)
-
-    return val
-
+        
+def _validate_input_buffer_size(value):
+    if value < 0:
+        raise ValueError('input_buffer_size must be >= 0')
 
 def _validate_window_sz2(value):
-    _validate_bounds(value,
-                     name='window_sz2',
-                     min=MIN_WINDOW_SZ2,
-                     max=MAX_WINDOW_SZ2)
+    if not (MIN_WINDOW_SZ2 <= value <= MAX_WINDOW_SZ2):
+        raise ValueError(
+            f'window_sz2 must be {MIN_WINDOW_SZ2} <= number <= {MAX_WINDOW_SZ2}')
 
 
 def _validate_lookahead_sz2(value, window_sz2):
-    _validate_bounds(value,
-                     name='lookahead_sz2',
-                     min=MIN_LOOKAHEAD_SZ2,
-                     max=window_sz2)
+    if not (MIN_LOOKAHEAD_SZ2 <= value <= window_sz2):
+        raise ValueError(
+            f'lookahead_sz2 must be {MIN_LOOKAHEAD_SZ2} <= number <= {window_sz2}')
 
 
 cdef class Writer:
@@ -148,7 +121,7 @@ cdef class Reader:
         window_sz2 = kwargs.get('window_sz2', DEFAULT_WINDOW_SZ2)
         lookahead_sz2 = kwargs.get('lookahead_sz2', DEFAULT_LOOKAHEAD_SZ2)
 
-        _validate_bounds(input_buffer_size, name='input_buffer_size', min=0)
+        _validate_input_buffer_size(input_buffer_size)
         _validate_window_sz2(window_sz2)
         _validate_lookahead_sz2(lookahead_sz2, window_sz2)
 

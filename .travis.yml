@@ -15,3 +15,6 @@ script:
   - make test-sdist
   - PYTHONPATH=. python scripts/benchmark.py
   - make fuzz FUZZ_TIME=1
+
+after_success:
+  - coveralls
