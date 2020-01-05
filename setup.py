@@ -29,7 +29,7 @@ else:
     extensions = [heatshrink_module]
 
 setup(name='heatshrink2',
-      version='0.4.0',
+      version='0.5.0',
       author='Antonis Kalou @ JOHAN Sports, Erik Moqvist',
       author_email='antonis@johan-sports.com, erik.moqvist@gmail.com',
       description='Python bindings to the heatshrink library',
