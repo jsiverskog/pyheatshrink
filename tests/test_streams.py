@@ -28,12 +28,6 @@ class HeatshrinkFileTest(TestUtilsMixin, unittest.TestCase):
         if os.path.exists(TEST_FILENAME):
             os.unlink(TEST_FILENAME)
 
-    def test_bad_args(self):
-        self.assertRaises(TypeError, HeatshrinkFile, None)
-        self.assertRaises(ValueError, HeatshrinkFile, None, mode='eb')
-        fp = self.assertNotRaises(HeatshrinkFile, TEST_FILENAME, invalid_param=True)
-        fp.close()
-
     def test_open_missing_file(self):
         self.assertRaises(IOError, HeatshrinkFile, 'does_not_exist.txt')
 
@@ -66,6 +60,24 @@ class HeatshrinkFileTest(TestUtilsMixin, unittest.TestCase):
 
         # Ensure that all have different values
         self.assertEqual(len(encoded), len(set(encoded)))
+
+    def test_invalid_compress_params_values(self):
+        datas = [
+            (3, 4, 'window_sz2 must be 4 <= number <= 15'),
+            (16, 4, 'window_sz2 must be 4 <= number <= 15'),
+            (11, 2, 'lookahead_sz2 must be 3 <= number <= 11'),
+            (8, 9, 'lookahead_sz2 must be 3 <= number <= 8')
+        ]
+
+        for window_sz2, lookahead_sz2, message in datas:
+            with io.BytesIO() as dst:
+                with self.assertRaises(ValueError) as cm:
+                    HeatshrinkFile(dst,
+                                   'wb',
+                                   window_sz2=window_sz2,
+                                   lookahead_sz2=lookahead_sz2)
+
+                self.assertEqual(str(cm.exception), message)
 
     def test_invalid_modes(self):
         data = io.BytesIO()

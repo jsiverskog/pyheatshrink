@@ -1,7 +1,6 @@
 import array
 import numbers
 from cpython cimport array
-from libc.stdint cimport uint8_t
 
 cimport _heatshrink
 
@@ -15,10 +14,11 @@ DEFAULT_LOOKAHEAD_SZ2 = 4
 
 DEFAULT_INPUT_BUFFER_SIZE = 2048
 
-        
+
 def _validate_input_buffer_size(value):
-    if value < 0:
-        raise ValueError('input_buffer_size must be >= 0')
+    if not (value > 0):
+        raise ValueError('input_buffer_size must be > 0')
+
 
 def _validate_window_sz2(value):
     if not (MIN_WINDOW_SZ2 <= value <= MAX_WINDOW_SZ2):
@@ -37,10 +37,9 @@ cdef class Writer:
 
     cdef _heatshrink.heatshrink_encoder *_hse
 
-    def __cinit__(self, **kwargs):
-        window_sz2 = kwargs.get('window_sz2', DEFAULT_WINDOW_SZ2)
-        lookahead_sz2 = kwargs.get('lookahead_sz2', DEFAULT_LOOKAHEAD_SZ2)
-
+    def __cinit__(self,
+                  window_sz2=DEFAULT_WINDOW_SZ2,
+                  lookahead_sz2=DEFAULT_LOOKAHEAD_SZ2):
         _validate_window_sz2(window_sz2)
         _validate_lookahead_sz2(lookahead_sz2, window_sz2)
 
@@ -115,12 +114,10 @@ cdef class Reader:
 
     cdef _heatshrink.heatshrink_decoder *_hsd
 
-    def __cinit__(self, **kwargs):
-        input_buffer_size = kwargs.get('input_buffer_size',
-                                       DEFAULT_INPUT_BUFFER_SIZE)
-        window_sz2 = kwargs.get('window_sz2', DEFAULT_WINDOW_SZ2)
-        lookahead_sz2 = kwargs.get('lookahead_sz2', DEFAULT_LOOKAHEAD_SZ2)
-
+    def __cinit__(self,
+                  input_buffer_size=DEFAULT_INPUT_BUFFER_SIZE,
+                  window_sz2=DEFAULT_WINDOW_SZ2,
+                  lookahead_sz2=DEFAULT_LOOKAHEAD_SZ2):
         _validate_input_buffer_size(input_buffer_size)
         _validate_window_sz2(window_sz2)
         _validate_lookahead_sz2(lookahead_sz2, window_sz2)
@@ -307,8 +304,10 @@ cdef _encode_impl(encoder, buf):
     return encoder.fill(buf) + encoder.finish()
 
 
-def encode(data, **kwargs):
-    """Encode iterable `data` in to a byte string.
+def encode(data,
+           window_sz2=DEFAULT_WINDOW_SZ2,
+           lookahead_sz2=DEFAULT_LOOKAHEAD_SZ2):
+    """Encode iterable `data` into a bytes object.
 
     Keyword arguments:
 
@@ -324,27 +323,26 @@ def encode(data, **kwargs):
 
     Returns:
 
-        str or bytes: A byte string of encoded contents.  str is used
-            for Python 2 and bytes for Python 3.
+        bytes: A bytes object of encoded contents.
 
     Raises:
 
         ValueError: If `window_sz2` or `lookahead_sz2` are outside
             their defined ranges.
 
-        TypeError: If `window_sz2`, `lookahead_sz2` are not valid
-            numbers and if `data` is not a valid iterable.
-
         RuntimeError: Thrown if internal polling or sinking of the
             encoder/decoder fails.
 
     """
 
-    return _encode_impl(Writer(**kwargs), data)
+    return _encode_impl(Writer(window_sz2, lookahead_sz2), data)
 
 
-def decode(data, **kwargs):
-    """Decode iterable `data` in to a byte string.
+def decode(data,
+           input_buffer_size=DEFAULT_INPUT_BUFFER_SIZE,
+           window_sz2=DEFAULT_WINDOW_SZ2,
+           lookahead_sz2=DEFAULT_LOOKAHEAD_SZ2):
+    """Decode iterable `data` to a bytes object.
 
     Keyword arguments:
 
@@ -364,21 +362,17 @@ def decode(data, **kwargs):
 
     Returns:
 
-        str or bytes: A byte string of decoded contents.  str is used
-            for Python 2 and bytes for Python 3.
+        bytes: A bytes object of decoded contents.
 
     Raises:
 
         ValueError: If `input_buffer_size`, `window_sz2` or
             `lookahead_sz2` are outside their defined ranges.
 
-        TypeError: If `input_buffer_size`, `window_sz2` or
-            `lookahead_sz2` are not valid numbers and if `data` is not
-            a valid iterable.
-
         RuntimeError: Thrown if internal polling or sinking of the
             encoder/decoder fails.
 
     """
 
-    return _encode_impl(Reader(**kwargs), data)
+    return _encode_impl(Reader(input_buffer_size, window_sz2, lookahead_sz2),
+                        data)

@@ -5,7 +5,7 @@
 PyHeatshrink
 ============
 
-Python 3 binding to the `heatshrink LZSS compression library
+Python 3.6+ binding to the `heatshrink LZSS compression library
 <https://github.com/atomicobject/heatshrink>`__.
 
 Installation
