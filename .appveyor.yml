@@ -18,6 +18,7 @@ test_script:
   - python setup.py test
 
 after_test:
+  - ECHO %APPVEYOR_REPO_TAG%
   - git clean -dfx
   - python -m pip install wheel twine
   - python setup.py bdist_wheel
