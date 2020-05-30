@@ -16,3 +16,7 @@ install:
 test_script:
   - git submodule update --init --recursive
   - python setup.py test
+
+after_test:
+  - python -m pip install wheel
+  - python setup.py bdist_wheel
