@@ -19,5 +19,6 @@ test_script:
 
 after_test:
   - git clean -dfx
-  - python -m pip install wheel
+  - python -m pip install wheel twine
   - python setup.py bdist_wheel
+  - twine upload -u __token__ -p hello dist/*
