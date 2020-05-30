@@ -41,6 +41,7 @@ setup(name='heatshrink2',
       author_email='antonis@johan-sports.com, erik.moqvist@gmail.com',
       description='Python bindings to the heatshrink library',
       long_description=open('README.rst', 'r').read(),
+      long_description_content_type='text/x-rst',
       url='https://github.com/eerimoq/pyheatshrink',
       license='ISC',
       classifiers=[
