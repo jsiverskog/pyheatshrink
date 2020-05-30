@@ -19,6 +19,10 @@ script:
 after_success:
   - coveralls
 
+before_deploy:
+  - ls dist
+  - git clean -dfx
+
 deploy:
   provider: pypi
   username: eerimoq
