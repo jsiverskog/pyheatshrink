@@ -18,8 +18,7 @@ test_script:
   - python setup.py test
 
 after_test:
-  - ECHO %APPVEYOR_REPO_TAG%
   - git clean -dfx
   - python -m pip install wheel twine
   - python setup.py bdist_wheel
-  - python -m twine upload -u __token__ -p hello dist/*
+  - IF %APPVEYOR_REPO_TAG%==true python -m twine upload -u __token__ -p hello dist/*
