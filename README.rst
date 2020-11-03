@@ -151,8 +151,8 @@ License
 
 ISC license
 
-.. |buildstatus| image:: https://travis-ci.org/eerimoq/pyheatshrink.svg?branch=master
-.. _buildstatus: https://travis-ci.org/eerimoq/pyheatshrink
+.. |buildstatus| image:: https://travis-ci.com/eerimoq/pyheatshrink.svg?branch=master
+.. _buildstatus: https://travis-ci.com/eerimoq/pyheatshrink
 
 .. |appveyor| image:: https://ci.appveyor.com/api/projects/status/github/eerimoq/pyheatshrink?svg=true
 .. _appveyor: https://ci.appveyor.com/project/eerimoq/pyheatshrink/branch/master
