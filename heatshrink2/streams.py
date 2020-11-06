@@ -129,10 +129,11 @@ class _DecompressReader(io.RawIOBase):
 
             offset += self._size
         else:
-            raise ValueError(f'Invalid value for whence: {whence}')
+            raise ValueError('Invalid value for whence: {}'.format(whence))
 
         if offset < 0:
-            raise IOError(f'[Error {errno.EINVAL}] {os.strerror(errno.EINVAL)}')
+            raise IOError('[Error {code}] {msg}'.format(code=errno.EINVAL,
+                                                        msg=os.strerror(errno.EINVAL)))
 
         # Make it so that offset is the number of bytes to skip forward.
         if offset < self._pos:
